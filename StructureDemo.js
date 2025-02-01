@@ -4,7 +4,7 @@
 //  │   ├── page.js
 //  │   ├── about/
 //  │   │   ├── page.js
-//  │   │   ├── layout.js
+//  
 //  │
 //  ├── api/         # ✅ Next.js API Routes (server functions)
 //  │   ├── auth/

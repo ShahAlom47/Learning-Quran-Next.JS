@@ -1,10 +1,14 @@
 import React from 'react';
 
 const Home = () => {
-    return (
-        <div>
 
-            Home
+    console.log(bb);
+
+
+    return (
+        <div className=' border   border-black text-xl'>
+
+            Home 
             
         </div>
     );
