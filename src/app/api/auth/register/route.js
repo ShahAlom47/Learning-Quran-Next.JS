@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 import { getUserCollection } from "@/src/lib/database/db_collections";
 
 export const POST = async (req) => {
     try {
-        const usersCollection = await getUserCollection(); // Await করা হয়েছে
+        const usersCollection = await getUserCollection(); 
 
         const body = await req.json(); 
         const { name, email, password } = body;
@@ -18,8 +19,16 @@ export const POST = async (req) => {
             return NextResponse.json({ message: "User already exists" }, { status: 409 });
         }
 
-        // Insert new user
-        const result = await usersCollection.insertOne({ name, email, password });
+        // Hash the password before storing it
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Insert new user with hashed password
+        const result = await usersCollection.insertOne({ 
+            name, 
+            email, 
+            password: hashedPassword 
+        });
 
         return NextResponse.json({ 
             message: "User registered successfully", 
