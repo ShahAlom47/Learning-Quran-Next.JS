@@ -3,34 +3,47 @@ import { NextResponse } from 'next/server';
 
 export default withAuth(
     middleware = () => {
-        return NextResponse.next(); 
+        return NextResponse.next();
     },
     {
-       
+
         callbacks: {
             authorized: ({ token, req }) => {
-                const { pathname } = req.nextUrl; 
+                const { pathname } = req.nextUrl;
 
-                // **এখানে লগিক যুক্ত করতে হবে যে কোন রুটগুলোতে অথেনটিকেশন প্রয়োজন নয়।**
-                
+                // je path  privet korte hobe se path a  false return korle  seta privet hoye jabe 
+
                 // Public routes that do not require authentication
-                if (pathname.startsWith('/login') || pathname.startsWith('/signup')) {
-                    return true; // Login বা Signup রুটগুলোতে যাওয়া যাবে
+
+                if (pathname.startsWith('/api/auth') ||
+                    pathname === '/register' ||
+                    pathname === '/login' ||
+                    pathname === '/'
+
+
+                ) {
+                    return true;
                 }
 
                 // Check if token exists
                 if (!token) {
-                    return false; // যদি টোকেন না থাকে, তাহলে ইউজারকে অ্যাক্সেস দেওয়া হবে না
+                    return false;
                 }
 
-                // Optionally, check user role or other conditions
-                // if (token.role !== 'admin') {
-                //     return false; // নির্দিষ্ট রোল না থাকলে অ্যাক্সেস দেওয়া হবে না
-                // }
-
-                // If the token exists and the path is authorized, allow access
-                return true; // অন্যথায়, ইউজারকে অনুমতি দেওয়া হবে
             },
         },
     }
 );
+
+export const config = {
+    matcher: [
+      /*
+       * Match all request paths except for the ones starting with:
+       * - api (API routes)
+       * - _next/static (static files)
+       * - _next/image (image optimization files)
+       * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+       */
+      '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    ],
+  }
