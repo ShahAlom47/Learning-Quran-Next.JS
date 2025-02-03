@@ -38,8 +38,37 @@ const authOptions = {
             }
         })
     ],
+    callbacks: {
+        async jwt({ token, user }) {
 
-  
+            if (user) {
+                token.id = user.id
+            }
+            return token
+        },
+
+        async session({ session, token }) {
+
+            if (session?.user) {
+                session.user.id = token.id
+            }
+            return session
+
+        }
+
+    },
+
+    pages: {
+        signIn: "/login", 
+        error: '/login',   // error handling  je jaygay kora hobe tar locetion
+    },
+    session: {
+        strategy: "jwt",
+        maxAge:30*24*60*60  /// ৩০ দিন × ২৪ ঘণ্টা × ৬০ মিনিট × ৬০ সেকেন্ড  ২৫,৯২,০০০ সেকেন্ড  = ৩০ দিন ;
+    },
+    secret: process.env.NEXTAUTH_SECRET, // Ensure you set this in your .env file
+
+
 };
 
 export default authOptions;
