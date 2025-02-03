@@ -1,18 +1,11 @@
-const { default: clientPromise } = require("./db_connection");
-
+import clientPromise from "./db_connection";
 
 export const getUserCollection = async () => {
     const client = await clientPromise;
-    const db = client.db("learning_quran");
-    return db.collection("users");
-  };
+    return client.db("learning_quran").collection("users");
+};
 
 export const getBookCollection = async () => {
     const client = await clientPromise;
-    const db = client.db("learning_quran");
-    return db.collection("users");
-  };
-
-
-
-
+    return client.db("learning_quran").collection("books");
+};
