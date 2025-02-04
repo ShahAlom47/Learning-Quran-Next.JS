@@ -11,6 +11,7 @@ const Navbar = async() => {
 
             <Link href={'/'} className=" hover:underline" >Home </Link>
             <Link href={'/books'} className=" hover:underline" >Books </Link>
+            <Link href={'/file_upload'} className=" hover:underline" >File Upload </Link>
 
             
         </div>
