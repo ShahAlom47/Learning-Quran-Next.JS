@@ -3,14 +3,14 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// import { useNotification } from "../components/Notification";
 import Link from "next/link";
+import { useNotification } from "@/src/components/Notification";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-//   const { showNotification } = useNotification();
+  const { showNotification } = useNotification();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,11 +21,11 @@ export default function Login() {
     });
 
 
-    console.log(result);
+ 
     if (result?.error) {
-      // showNotification(result.error, "error");
+      showNotification(result.error, "error");
     } else {
-      // showNotification("Login successful!", "success");
+      showNotification("Login successful!", "success");
       router.push("/");
     }
   };

@@ -3,21 +3,21 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// import { useNotification } from "../components/Notification";
 import Link from "next/link";
+import { useNotification } from "@/src/components/Notification";
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
-//   const { showNotification } = useNotification();
+  const { showNotification } = useNotification();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-    //   showNotification("Passwords do not match", "error");
+      showNotification("Passwords do not match", "error");
       return;
     }
 
@@ -30,19 +30,18 @@ export default function Register() {
 
       const data = await res.json();
 
-      console.log(data);
-
+   
       if (!res.ok) {
         throw new Error(data.error || "Registration failed");
       }
 
-    //   showNotification("Registration successful! Please log in.", "success");
+      showNotification("Registration successful! Please log in.", "success");
       router.push("/login");
     } catch (error) {
-      // showNotification(
-      //   // error instanceof Error ? error.message : "Registration failed",
-      //   "error"
-      // );
+      showNotification(
+        error instanceof Error ? error.message : "Registration failed",
+        "error"
+      );
     }
   };
 
