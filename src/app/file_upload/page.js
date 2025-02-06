@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import {   IKUpload } from "imagekitio-next";
 import { Upload } from "lucide-react";
-import ImgKitProvider from "@/src/Providers/ImgKitProvider";
+import Provider from "@/src/Providers/Provider";
 
 
 
@@ -29,7 +29,7 @@ export default function FileUpload() {
       <h1>ImageKit Next.js quick start</h1>
 
 
-      <ImgKitProvider>
+      <Provider>
 
    
         <IKUpload
@@ -57,7 +57,7 @@ export default function FileUpload() {
 
        <button className=" bg-green-500 px-2 flex  gap-2 items-center" onClick={() => ikUploadRefTest.current.click()}> <Upload /> Upload</button>
 
-      </ImgKitProvider>
+      </Provider>
       
     </div>
   );

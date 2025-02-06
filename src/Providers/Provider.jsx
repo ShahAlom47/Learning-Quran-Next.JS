@@ -6,7 +6,7 @@ const publicKey = process.env.NEXT_PUBLIC_IMG_KIT_PUBLIC_KEY;
 console.log(urlEndpoint,publicKey);
 
 
-export default function ImgKitProvider({ children }) {
+export default function Provider({ children }) {
     const authenticator = async () => {
         try {
             const response = await fetch("/api/imageKit-auth");

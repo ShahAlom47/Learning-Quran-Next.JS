@@ -7,9 +7,9 @@ export const POST = async (req) => {
         const usersCollection = await getUserCollection(); 
 
         const body = await req.json(); 
-        const { name, email, password } = body;
+        const { email, password } = body;
 
-        if (!name || !email || !password) {
+        if ( !email || !password) {
             return NextResponse.json({ message: "All fields are required" }, { status: 400 });
         }
 
@@ -25,7 +25,7 @@ export const POST = async (req) => {
 
         // Insert new user with hashed password
         const result = await usersCollection.insertOne({ 
-            name, 
+        
             email, 
             password: hashedPassword 
         });
