@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../style/globals.css";
 import Navbar from "../components/Navbar";
+import Providers from "../Providers/Provider";
 
 export const metadata = {
   title: "Learning Quran",
@@ -13,9 +14,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="p-4">
       <body className={geist.className}>
-       
+
+        <Providers>
           <Navbar />
           {children}
+        </Providers>
       </body>
     </html>
   );

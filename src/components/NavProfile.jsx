@@ -3,12 +3,12 @@
 import {  useSession } from "next-auth/react";
 
 const NavProfile = () => {
-    const session= useSession()
-    console.log(session);
+    const {data:userData}= useSession()
+    console.log(userData);
     return (
        
-       <div>
-         {children}
+       <div  className=" text-red-500">
+         {userData?.user?.email}
        </div>
     );
 };

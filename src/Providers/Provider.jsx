@@ -1,36 +1,33 @@
-import React from "react";
+"use client";
+
+import { SessionProvider } from "next-auth/react";
 import { ImageKitProvider } from "imagekitio-next";
 
 const urlEndpoint = process.env.NEXT_PUBLIC_IMG_KIT_URL;
 const publicKey = process.env.NEXT_PUBLIC_IMG_KIT_PUBLIC_KEY;
-console.log(urlEndpoint,publicKey);
 
+export default function Providers({ children }) {
+  const authenticator = async () => {
+    try {
+      const res = await fetch("/api/imageKit-auth");
+      if (!res.ok) throw new Error("Failed to authenticate");
+      return res.json();
+    } catch (error) {
+      console.error("ImageKit authentication error:", error);
+      throw error;
+    }
+  };
 
-export default function Provider({ children }) {
-    const authenticator = async () => {
-        try {
-            const response = await fetch("/api/imageKit-auth");
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Request failed with status ${response.status}: ${errorText}`);
-            }
-
-            const data = await response.json();
-
-            console.log(data);
-            const { signature, expire, token } = data;
-            return { signature, expire, token };
-        } catch (error) {
-            throw new Error(`Authentication request failed: ${error.message}`);
-        }
-    };
-
-    return (
-
-        <ImageKitProvider urlEndpoint={urlEndpoint} publicKey={publicKey} authenticator={authenticator}>
-            {children}
+  return (
+    <SessionProvider refetchInterval={5 * 60}>
+   
+        <ImageKitProvider
+          publicKey={publicKey}
+          urlEndpoint={urlEndpoint}
+          authenticator={authenticator}
+        >
+          {children}
         </ImageKitProvider>
-
-    );
+    </SessionProvider>
+  );
 }
