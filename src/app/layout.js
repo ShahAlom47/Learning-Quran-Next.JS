@@ -12,7 +12,7 @@ const geist = Geist({ subsets: ["latin"] }); // Google Font ব্যবহা�
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="p-4">
+    <html lang="en" className="">
       <body className={geist.className}>
 
         <Providers>
