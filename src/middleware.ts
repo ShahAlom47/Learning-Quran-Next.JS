@@ -43,17 +43,30 @@ export async function middleware(req: NextRequest) {
   }
 
   // Redirect to appropriate dashboard based on role
-  if (pathname === "/dashboard") {
+
+  if (pathname === "/dashboard/admin"  ) {
+
     if (token?.role === "admin") {
       console.log("Redirecting admin to admin dashboard", 'user Role', token?.role); // Debugging log
       return NextResponse.redirect(new URL("/dashboard/admin", req.url));
-    } else if (token?.role === "user") {
+    } 
+     else {
+      return NextResponse.redirect(new URL("/unauthorized", req.url));
+    }
+  }
+
+  if (pathname === "/dashboard/user"  ) {
+
+    if (token?.role === "user") {
       console.log("Redirecting user to user dashboard", 'user Role', token?.role); // Debugging log
-      return NextResponse.redirect(new URL("/dashboard/user", req.url));
+      return NextResponse.redirect(new URL("/dashboard/user", req.url)); 
     } else {
       return NextResponse.redirect(new URL("/unauthorized", req.url));
     }
   }
+
+
+
 
   // Ensure only admin can access /dashboard/admin
   if (pathname.startsWith("/dashboard/admin") && token?.role !== "admin") {
