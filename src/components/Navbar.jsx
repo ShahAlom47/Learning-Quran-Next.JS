@@ -2,53 +2,83 @@
 
 import Link from "next/link";
 import { useState } from "react";
-// import { Sheet, SheetContent, SheetTrigger } from "@/src/components/ui/sheet";
-import { Button } from "@/src/components/ui/button";
 import { Menu } from "lucide-react";
-import NavProfile from "./NavProfile";
+import dynamic from "next/dynamic"; 
+
+const Drawer = dynamic(() => import("react-modern-drawer"), { ssr: false }); // Disable SSR
+import "react-modern-drawer/dist/index.css";
+
+const navLinks = [
+  { name: "Home", href: "/" },
+  { name: "Books", href: "/books" },
+  { name: "Courses", href: "/courses" },
+  { name: "Pricing", href: "/pricing" },
+  { name: "Apply Now", href: "/apply" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
+];
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDrawer = () => setIsOpen(!isOpen);
 
   return (
-    // <nav className="flex items-center justify-between px-6 py-3 border-b-2 bg-black bg-opacity-60">
-    //   {/* Logo */}
-    //   <div>
-    //     <Link href="/" className="text-white text-lg font-bold">MySite</Link>
-    //   </div>
+    <nav className="bg-black bg-opacity-70 text-white shadow-md">
+      {/* Top Bar */}
+      <div className="flex items-center justify-between px-6 py-2 border-b border-gray-700">
+        <div className="text-sm">
+          <span className="mr-4">📞 +880 1320 755180</span>
+          <span className=" lg:block md:block hidden">📧 info@learningquranonlineacademy.com</span>
+        </div>
+        <div className="flex items-center space-x-4">
+          <Link href="/register" className="hover:underline">Register</Link>
+          <Link href="/login" className="hover:underline">Login</Link>
+        </div>
+      </div>
 
-    //   {/* Desktop Menu */}
-    //   <div className="hidden md:flex gap-6 text-white">
-    //     <Link href="/" className="hover:underline">Home</Link>
-    //     <Link href="/books" className="hover:underline">Books</Link>
-    //     <Link href="/file_upload" className="hover:underline">File Upload</Link>
-    //     <Link href="/register" className="hover:underline">Register</Link>
-    //     <Link href="/login" className="hover:underline">Login</Link>
-    //     <NavProfile />
-    //   </div>
+      {/* Main Navbar */}
+      <div className="flex items-center justify-between px-6 py-3">
+        {/* Logo */}
+        <div className="text-xl font-bold">
+          <Link href="/"> 
+            <span className="text-orange-400">Q</span> Learning Quran
+          </Link>
+        </div>
 
-    //   {/* Mobile Menu Button */}
-    //   <Sheet open={open} onOpenChange={setOpen}>
-    //     <SheetTrigger asChild>
-    //       <Button variant="ghost" size="icon" className="md:hidden text-white">
-    //         <Menu size={24} />
-    //       </Button>
-    //     </SheetTrigger>
-    //     <SheetContent side="left" className="bg-black text-white">
-    //       <div className="flex flex-col gap-4 text-lg mt-6">
-    //         <Link href="/" onClick={() => setOpen(false)}>Home</Link>
-    //         <Link href="/books" onClick={() => setOpen(false)}>Books</Link>
-    //         <Link href="/file_upload" onClick={() => setOpen(false)}>File Upload</Link>
-    //         <Link href="/register" onClick={() => setOpen(false)}>Register</Link>
-    //         <Link href="/login" onClick={() => setOpen(false)}>Login</Link>
-    //         <NavProfile />
-    //       </div>
-    //     </SheetContent>
-    //   </Sheet>
-    // </nav>
-    <div>
-       <Button> shadow ui</Button>
-    </div>
+        {/* Desktop Menu */}
+        <div className="hidden md:flex space-x-6">
+          {navLinks.map((link) => (
+            <Link key={link.name} href={link.href} className="hover:text-orange-400">
+              {link.name}
+            </Link>
+          ))}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <button onClick={toggleDrawer}>
+            <Menu size={24} />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Sidebar Drawer */}
+      <Drawer
+        open={isOpen}
+        onClose={toggleDrawer}
+        direction="left"
+        className=""
+      >
+        <div className=" bg-black bg-opacity-70 flex flex-col space-y-4 text-lg min-h-screen py-6 px-3">
+          {navLinks.map((link) => (
+            <Link key={link.name} href={link.href} onClick={toggleDrawer} className="hover:text-orange-400">
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      </Drawer>
+    </nav>
   );
 };
 
