@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { Axios } from "axios";
 
 const fetch = async (endpoint, method = "GET", body) => {
   try {
@@ -9,6 +9,7 @@ const fetch = async (endpoint, method = "GET", body) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials:true,
     });
 
     return response.data;
@@ -27,5 +28,11 @@ const fetch = async (endpoint, method = "GET", body) => {
 };
 
 // Example usage
-const getData = () => fetch("/data", "GET"); // GET request
-const postData = (data) => fetch("/data", "POST", data); // POST request with body
+export const getData = () => fetch("/data", "GET"); // GET request
+export const postData = (data) => fetch("/data", "POST", data); // POST request with body
+// export const getCartData = (data) => fetch("/cartData", "GET"); // get cart all data 
+
+export const getCartData = async (data) => {
+  const res = await axios.get('https://jsonplaceholder.typicode.com/posts')
+  return res.data
+}
