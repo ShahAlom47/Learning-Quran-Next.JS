@@ -1,13 +1,11 @@
 import axios from "axios";
 
-
-
-const fetch = async <T>(endpoint: string, method: "GET" | "POST" | "PUT" | "DELETE" = "GET", body?: any): Promise<T> => {
+const fetch = async (endpoint, method = "GET", body) => {
   try {
     const response = await axios({
-      url: `/api${endpoint}`,  // API Endpoint
-      method: method,  // Dynamically set the HTTP method
-      data: body,  // If method is POST or PUT, send the body
+      url: `/api${endpoint}`, // API Endpoint
+      method: method, // Dynamically set the HTTP method
+      data: body, // If method is POST or PUT, send the body
       headers: {
         "Content-Type": "application/json",
       },
@@ -29,5 +27,5 @@ const fetch = async <T>(endpoint: string, method: "GET" | "POST" | "PUT" | "DELE
 };
 
 // Example usage
-const getData = () => fetch<YourDataType>("/data", "GET");  // GET request
-const postData = (data: YourDataType) => fetch<YourDataType>("/data", "POST", data);  // POST request with body
+const getData = () => fetch("/data", "GET"); // GET request
+const postData = (data) => fetch("/data", "POST", data); // POST request with body

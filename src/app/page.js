@@ -1,4 +1,5 @@
 import React from 'react';
+import ReduxExample from '../components/ReduxExample';
 
 const Home = () => {
 
@@ -9,6 +10,9 @@ const Home = () => {
         <div className=' border   border-black text-xl'>
 
             Home 
+
+            Redux use case 
+            <ReduxExample></ReduxExample>
             
         </div>
     );
