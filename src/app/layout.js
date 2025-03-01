@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../style/globals.css";
 import Navbar from "../components/Navbar";
 import Providers from "../Providers/Provider";
+import Footer from "../components/Footer";
 
 export const metadata = {
   title: "Learning Quran",
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <Navbar />
           {children}
+          <Footer></Footer>
         </Providers>
       </body>
     </html>

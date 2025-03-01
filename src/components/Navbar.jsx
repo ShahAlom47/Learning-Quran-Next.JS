@@ -5,8 +5,10 @@ import { useState } from "react";
 import { Menu } from "lucide-react";
 import dynamic from "next/dynamic"; 
 
+
 const Drawer = dynamic(() => import("react-modern-drawer"), { ssr: false }); // Disable SSR
 import "react-modern-drawer/dist/index.css";
+import Logo from "./Logo";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -42,7 +44,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="text-xl font-bold">
           <Link href="/"> 
-            <span className="text-orange-400">Q</span> Learning Quran
+          <Logo className={`w-24`}></Logo>
           </Link>
         </div>
 
