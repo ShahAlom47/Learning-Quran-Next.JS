@@ -11,6 +11,7 @@ import Logo from "./Logo";
 import { FaFacebook, FaWhatsapp } from "react-icons/fa";
 import useUser from "../hooks/useUser";
 import { signOut } from "next-auth/react";
+import Image from "next/image";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -24,9 +25,12 @@ const navLinks = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenUserMenu, setIsOpenUserMenu] = useState(false);
   const { user } = useUser();
+  const userPhoto = user?.photoUrl;
 
   const toggleDrawer = () => setIsOpen(!isOpen);
+  const toggleUserMenuDrawer = () => setIsOpenUserMenu(!isOpenUserMenu);
 
   console.log(user);
 
@@ -64,7 +68,7 @@ const Navbar = () => {
       </div>
 
       {/* Main Navbar */}
-      <div className="flex items-center justify-between px-6 py-3">
+      <div className="flex items-center justify-between px-6 py-3 relative">
         {/* Logo */}
         <div className="text-xl font-bold">
           <Link href="/">
@@ -73,7 +77,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-6">
+        <div className="hidden md:flex items-center space-x-6">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -83,10 +87,26 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+          {user && (
+            <button
+              onClick={toggleUserMenuDrawer}
+              className=" rounded-full h-12 w-12 border"
+            >
+              <img src={userPhoto} w alt=" user Photo"></img>
+            </button>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden">
+        <div className="md:hidden flex  items-center gap-4 ">
+          {user && (
+            <button
+              onClick={toggleUserMenuDrawer}
+              className=" rounded-full h-12 w-12 border"
+            >
+              <img src={userPhoto} alt=" user Photo"></img>
+            </button>
+          )}
           <button onClick={toggleDrawer}>
             <Menu size={24} />
           </button>
@@ -111,6 +131,29 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+        </div>
+      </Drawer>
+
+      {/* uSER menu drawer  */}
+      <Drawer
+        open={isOpenUserMenu}
+        onClose={toggleUserMenuDrawer}
+        direction="right"
+        size={200}
+        style={{  }} // Height auto করে দিলাম
+        className="flex flex-col max-h-screen overflow-y-auto" // Overflow handle
+      >
+        <div className=" bg-black bg-opacity-70 flex flex-col space-y-4 text-lg h-full py-6 px-3">
+          <h1 className=" text-xl  font-bold border-b-2 ">{user?.name}</h1>
+
+          <Link
+            key={"useProfile"}
+            href={"/"}
+            onClick={toggleUserMenuDrawer}
+            className="hover:text-orange-400"
+          >
+            My Profile
+          </Link>
         </div>
       </Drawer>
     </nav>
