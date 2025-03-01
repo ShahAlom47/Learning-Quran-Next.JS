@@ -9,6 +9,9 @@ import dynamic from "next/dynamic";
 const Drawer = dynamic(() => import("react-modern-drawer"), { ssr: false }); // Disable SSR
 import "react-modern-drawer/dist/index.css";
 import Logo from "./Logo";
+import { FaFacebook, FaWhatsapp } from "react-icons/fa";
+import { useSession } from "next-auth/react";
+import { data } from "autoprefixer";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -22,8 +25,10 @@ const navLinks = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+ const session = useSession()
   const toggleDrawer = () => setIsOpen(!isOpen);
+
+  console.log(data);
 
   return (
     <nav className="bg-black bg-opacity-70 text-white shadow-md">
@@ -34,6 +39,10 @@ const Navbar = () => {
           <span className=" lg:block md:block hidden">📧 info@learningquranonlineacademy.com</span>
         </div>
         <div className="flex items-center space-x-4">
+
+         
+          <Link href="/register" className="hover:underline"><FaFacebook></FaFacebook></Link>
+          <Link href="/register" className="hover:underline"><FaWhatsapp></FaWhatsapp></Link>
           <Link href="/register" className="hover:underline">Register</Link>
           <Link href="/login" className="hover:underline">Login</Link>
         </div>

@@ -31,7 +31,7 @@ export default function Login() {
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto py-11">
       <h1 className="text-2xl font-bold mb-4">Login</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -44,7 +44,7 @@ export default function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-3 py-2 border rounded"
+            className="w-full px-3 py-2 border rounded bg-slate-100"
           />
         </div>
         <div>
@@ -57,7 +57,7 @@ export default function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full px-3 py-2 border rounded"
+            className="w-full px-3 py-2 border rounded bg-slate-100"
           />
         </div>
         <button
