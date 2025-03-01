@@ -9,43 +9,54 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         const { pathname } = req.nextUrl;
-        console.log(token);
 
-        // ✅ Public routes (Authentication লাগবে না)
+        console.log("Middleware Executed:", pathname);
+
+        // ✅ Public Routes (No authentication required)
         const publicRoutes = ["/register", "/login", "/"];
-        if (publicRoutes.includes(pathname) || pathname.startsWith("/api/auth")) {
+        if (
+          publicRoutes.includes(pathname) ||
+          pathname.startsWith("/api/auth")
+        ) {
           return true;
         }
 
-   
+        // ❌ Unauthorized User Redirect to Login
         if (!token) {
-          return false;
+          return NextResponse.redirect(new URL("/login", req.url));
         }
 
-        // ✅ Role-based Access Control  
-        const role = token.role; 
+        // ✅ Role-based Access Control
+        const role = token.role;
 
-        // 🔹 Admin Routes
-        if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
+        if (
+          pathname.startsWith("/dashboard/admin") ||
+          pathname.startsWith("/api/admin")
+        ) {
           return role === "admin";
         }
 
-        // 🔹 Moderator Routes
-        if (pathname.startsWith("/moderator") || pathname.startsWith("/api/moderator")) {
+        if (
+          pathname.startsWith("/dashboard/moderator") ||
+          pathname.startsWith("/api/moderator")
+        ) {
           return role === "moderator";
         }
 
-        // 🔹 Agent Routes 
-        if (pathname.startsWith("/agent") || pathname.startsWith("/api/agent")) {
+        if (
+          pathname.startsWith("/dashboard/agent") ||
+          pathname.startsWith("/api/agent")
+        ) {
           return role === "agent";
         }
 
-        // 🔹 User Routes
-        if (pathname.startsWith("/user") || pathname.startsWith("/api/user")) {
-          return role === "user" || role === "admin"; 
+        if (
+          pathname.startsWith("/dashboard/user") ||
+          pathname.startsWith("/api/user")
+        ) {
+          return role === "user";
         }
 
-      
         return true;
       },
     },
@@ -53,7 +64,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: [
-    "/((?!api/auth|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
-  ],
+  matcher: ["/dashboard/:path*", "/api/:path*"],
 };

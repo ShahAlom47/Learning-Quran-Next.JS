@@ -92,7 +92,7 @@ const Navbar = () => {
               onClick={toggleUserMenuDrawer}
               className=" rounded-full h-12 w-12 border"
             >
-              <img src={userPhoto} w alt=" user Photo"></img>
+              <img src={userPhoto}  alt=" user Photo"></img>
             </button>
           )}
         </div>
@@ -139,16 +139,15 @@ const Navbar = () => {
         open={isOpenUserMenu}
         onClose={toggleUserMenuDrawer}
         direction="right"
-        size={200}
-        style={{  }} // Height auto করে দিলাম
-        className="flex flex-col max-h-screen overflow-y-auto" // Overflow handle
+    
+        className="flex flex-col max-h-screen overflow-y-auto"
       >
         <div className=" bg-black bg-opacity-70 flex flex-col space-y-4 text-lg h-full py-6 px-3">
           <h1 className=" text-xl  font-bold border-b-2 ">{user?.name}</h1>
 
           <Link
             key={"useProfile"}
-            href={"/"}
+            href={"/dashboard/admin"}
             onClick={toggleUserMenuDrawer}
             className="hover:text-orange-400"
           >

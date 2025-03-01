@@ -1,11 +1,8 @@
 const layout = ({ children }) => {
   return (
-    <div className="">
-      <div>
-
-
-      </div>
-      <div> {children}</div>
+    <div className=" grid grid-cols-12 min-h-screen w-full ">
+      <div className=" col-span-2 bg-gray-300"></div>
+      <div className=" col-span-10 bg-green-200"> {children}</div>
     </div>
   );
 };
