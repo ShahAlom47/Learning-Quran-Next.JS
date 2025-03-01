@@ -31,44 +31,46 @@ const authOptions = {
 
                 // Return user data
                 return {
-                    id: existingUser._id,
-                    name: existingUser.name,
-                    email: existingUser.email
+                    id: existingUser?._id,
+                    name: existingUser?.name,
+                    email: existingUser?.email,
+                    role: existingUser?.role || null,
+                    photoUrl: existingUser?.photoUrl || null
                 };
             }
         })
     ],
     callbacks: {
         async jwt({ token, user }) {
-
             if (user) {
-                token.id = user.id
+                token.id = user.id;
+                token.name = user.name;
+                token.email = user.email;
+                token.role = user.role;
+                token.photoUrl = user.photoUrl;
             }
-            return token
+            return token;
         },
-
         async session({ session, token }) {
-
             if (session?.user) {
-                session.user.id = token.id
+                session.user.id = token.id;
+                session.user.name = token.name;
+                session.user.email = token.email;
+                session.user.role = token.role;
+                session.user.photoUrl = token.photoUrl;
             }
-            return session
-
+            return session;
         }
-
     },
-
     pages: {
         signIn: "/login", 
-        error: '/login',   // error handling  je jaygay kora hobe tar locetion
+        error: '/login',   // error handling location
     },
     session: {
         strategy: "jwt",
-        maxAge:30*24*60*60  /// ৩০ দিন × ২৪ ঘণ্টা × ৬০ মিনিট × ৬০ সেকেন্ড  ২৫,৯২,০০০ সেকেন্ড  = ৩০ দিন ;
+        maxAge: 30 * 24 * 60 * 60  /// ৩০ দিন
     },
     secret: process.env.NEXTAUTH_SECRET, // Ensure you set this in your .env file
-
-
 };
 
 export default authOptions;
