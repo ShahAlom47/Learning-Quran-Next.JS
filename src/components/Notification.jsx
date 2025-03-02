@@ -1,10 +1,8 @@
 "use client";
 
-import { createContext, useContext, useState,  } from "react";
+import { createContext, useContext, useState } from "react";
 
-
-
-const NotificationContext = createContext( undefined );
+const NotificationContext = createContext(undefined);
 
 export function NotificationProvider({ children }) {
   const [notification, setNotification] = useState(null);

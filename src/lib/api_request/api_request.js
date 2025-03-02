@@ -1,50 +1,54 @@
-import axios, { Axios } from "axios";
+import axios from "axios";
 
-const fetch = async (endpoint, method = "GET", body) => {
+// Custom Fetch Function with Error Handling
+const fetch = async (endpoint, method, body = null) => {
   try {
     const response = await axios({
-      url: `/api${endpoint}`, // API Endpoint
-      method: method, // Dynamically set the HTTP method
-      data: body, // If method is POST or PUT, send the body
+      url: endpoint,
+      method,
+      data: body,
       headers: {
         "Content-Type": "application/json",
       },
-      withCredentials:true,
+      withCredentials: true, // Include credentials for auth
     });
 
-    return response.data;
+    return { success: true, data: response.data };
   } catch (error) {
+    let errorMessage = "An error occurred";
     if (error.response) {
-      // Server responded with a status other than 2xx
-      throw new Error(error.response.data || "An error occurred");
+      errorMessage = error.response.data.message || errorMessage;
     } else if (error.request) {
-      // Request was made but no response was received
-      throw new Error("No response from server");
+      errorMessage = "No response from server";
     } else {
-      // Something happened in setting up the request
-      throw new Error(error.message || "An error occurred");
+      errorMessage = error.message;
     }
+
+    return { success: false, error: errorMessage };
   }
 };
 
-// Example usage
-export const getData = () => fetch("/data", "GET"); // GET request
-export const postData = (data) => fetch("/data", "POST", data); // POST request with body
-// export const getCartData = (data) => fetch("/cartData", "GET"); // get cart all data 
+// ================== API Call Functions ==================
 
-export const getCartData = async (data) => {
-  const res = await axios.get('https://jsonplaceholder.typicode.com/posts')
-  return res.data
-}
+export const getAllUsers = () =>
+  fetch("/api/moderator/users/get_all_user", "GET");
+
+export const updateUserRole = async (userId, newRole) =>
+  fetch("/api/moderator/users/updateUserRole", "PATCH", { userId, newRole });
+
+// =======================
+
+export const deleteProduct = (id) => fetch(`/products/${id}`, "DELETE");
+export const updateProduct = (id, data) =>
+  fetch(`/products/${id}`, "PUT", data);
+
+// External API Calls (Without Using Custom Fetch)
+export const getCartData = async () => {
+  const res = await axios.get("https://jsonplaceholder.typicode.com/posts");
+  return res.data;
+};
+
 export const getProduct = async () => {
-  const res = await axios.get('https://dummyjson.com/products')
-  return res.data
-}
-export const delateProduct = async (id) => {
-  const res = await axios.delete('https://dummyjson.com/products/1')
-  return res.data
-}
-export const updateProduct = async(id, data) => {
-  const res = await axios.delete('https://dummyjson.com/products/1')
-  return res.data
-}
+  const res = await axios.get("https://dummyjson.com/products");
+  return res.data;
+};

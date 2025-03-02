@@ -1,4 +1,5 @@
-import { delateProduct, getProduct, updateProduct } from "@/src/lib/api_request/api_request";
+
+import { getProduct, updateProduct } from "@/src/lib/api_request/api_request";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Initial State
@@ -27,7 +28,7 @@ const initialState = {
     'product/deleteProduct',
     async (id, { rejectWithValue }) => {
         try {
-            await delateProduct(id);
+            await deleteProduct(id);
             return id; // ডিলিট হওয়া আইডি রিটার্ন করছি
         } catch (error) {
             return rejectWithValue(error.message);

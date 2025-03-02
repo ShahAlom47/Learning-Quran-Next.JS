@@ -1,6 +1,6 @@
 
 import React from 'react';
-import ReduxExample from '../components/ReduxExample';
+import ReduxExample from '../Redux/DemoCode/ReduxExample';
 import Cart from '../components/Cart';
 
 const Home = () => {

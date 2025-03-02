@@ -38,7 +38,7 @@ export default withAuth(
 
         if (
           pathname.startsWith("/dashboard/moderator") ||
-          pathname.startsWith("/api/moderator")
+          pathname.startsWith("/api")
         ) {
           return role === "moderator";
         }

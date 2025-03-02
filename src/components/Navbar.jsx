@@ -145,14 +145,26 @@ const Navbar = () => {
         <div className=" bg-black bg-opacity-70 flex flex-col space-y-4 text-lg h-full py-6 px-3">
           <h1 className=" text-xl  font-bold border-b-2 ">{user?.name}</h1>
 
-          <Link
-            key={"useProfile"}
-            href={"/dashboard/admin"}
-            onClick={toggleUserMenuDrawer}
-            className="hover:text-orange-400"
-          >
-            My Profile
-          </Link>
+        {
+          user?.role==='admin' &&   <Link
+          key={"useProfile"}
+          href={"/dashboard/admin"}
+          onClick={toggleUserMenuDrawer}
+          className="hover:text-orange-400"
+        >
+          My Profile
+        </Link>
+        }
+        {
+          user?.role==='moderator' &&   <Link
+          key={"useProfile"}
+          href={"/dashboard/moderator"}
+          onClick={toggleUserMenuDrawer}
+          className="hover:text-orange-400"
+        >
+          My Profile
+        </Link>
+        }
         </div>
       </Drawer>
     </nav>

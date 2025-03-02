@@ -11,6 +11,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
     "@reduxjs/toolkit": "^2.6.0",
+    "@tanstack/react-query": "^5.66.11",
     "autoprefixer": "^10.4.20",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.1",
@@ -27,6 +28,7 @@
     "react-icons": "^5.5.0",
     "react-modern-drawer": "^1.4.0",
     "react-redux": "^9.2.0",
+    "react-super-responsive-table": "^6.0.1",
     "redux": "^5.0.1",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7"

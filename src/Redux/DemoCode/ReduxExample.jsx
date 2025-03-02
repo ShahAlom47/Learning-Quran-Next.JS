@@ -1,13 +1,13 @@
 "use client";
 
 import { useSelector, useDispatch } from "react-redux";
-import { decrement, increment, incrementByAmount } from "../Redux/Slice/counterSlice";
-import { deleteProduct } from "../Redux/Slice/productSlice";
-import { useGetDataQuery } from "../Redux/Slice/apiSlice";
+import { decrement, increment, incrementByAmount } from "../Slice/counterSlice";
+import { deleteProduct } from "../Slice/productSlice";
+import { useGetDataQuery } from "../Slice/apiSlice";
 
 export default function ReduxExample() {
-  const count = useSelector((state) => state.counter.value);
-  const product = useSelector((state) => state.products);
+  const count = useSelector((state) => state?.counter?.value);
+  const product = useSelector((state) => state?.products);
   const dispatch = useDispatch();
 
   const{data,error, isLoading}=useGetDataQuery('/products?limit=10')
