@@ -36,3 +36,15 @@ export const getCartData = async (data) => {
   const res = await axios.get('https://jsonplaceholder.typicode.com/posts')
   return res.data
 }
+export const getProduct = async () => {
+  const res = await axios.get('https://dummyjson.com/products')
+  return res.data
+}
+export const delateProduct = async (id) => {
+  const res = await axios.delete('https://dummyjson.com/products/1')
+  return res.data
+}
+export const updateProduct = async(id, data) => {
+  const res = await axios.delete('https://dummyjson.com/products/1')
+  return res.data
+}
