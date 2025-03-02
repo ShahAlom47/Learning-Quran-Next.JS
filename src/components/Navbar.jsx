@@ -32,7 +32,7 @@ const Navbar = () => {
   const toggleDrawer = () => setIsOpen(!isOpen);
   const toggleUserMenuDrawer = () => setIsOpenUserMenu(!isOpenUserMenu);
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <nav className="bg-black bg-opacity-70 text-white shadow-md">

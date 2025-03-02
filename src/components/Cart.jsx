@@ -15,7 +15,7 @@ Cart = () => {
 
     },[dispatch])
 
-    console.log(data);
+ 
 
 
     return (
