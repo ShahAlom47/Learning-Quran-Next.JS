@@ -23,17 +23,20 @@ export const PATCH = async (req) => {
       );
     }
 
-    // Update the user role
-    const updatedUser = await userCollection.updateOne(
-      { _id: new ObjectId(userId) },
-      { $set: { role: newRole } },
-      { writeConcern: { w: "majority" } } // Ensure proper update
-    );
+    // Update the user role and add the respective array
+    const updateData = { $set: { role: newRole } };
 
-    console.log("Update result:", updatedUser);
-    if (updatedUser.modifiedCount === 0) {
-      return NextResponse.json({ message: "No changes made" }, { status: 400 });
+    if (newRole === "teacher" && !user.students) {
+      updateData.$set.students = []; // Add "students" array if the user is a teacher
+    } else if (newRole === "student" && !user.teachers) {
+      updateData.$set.teachers = []; // Add "teachers" array if the user is a student
     }
+
+    // Update the user with the new role and the array
+    await userCollection.updateOne(
+      { _id: new ObjectId(userId) },
+      updateData
+    );
 
     return NextResponse.json(
       { message: "User role updated successfully" },
