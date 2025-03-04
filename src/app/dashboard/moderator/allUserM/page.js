@@ -2,52 +2,40 @@
 
 import { useNotification } from "@/src/components/Notification";
 import useUser from "@/src/hooks/useUser";
-import { getAllUsers, updateUserRole } from "@/src/lib/api_request/api_request"; // updateUserRole API যোগ করা হয়েছে
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useGetUsersQuery,
+  useUpdateUserRoleMutation,
+} from "@/src/Redux/RTKapi/userApi";
 import Image from "next/image";
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
-import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css"; // CSS স্টাইল ইমপোর্ট
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css"; 
 
 const AllUser = () => {
-  const queryClient = useQueryClient();
   const { user: currentUser } = useUser();
   const { showNotification } = useNotification();
 
-  // Fetch all users
-  const {
-    data: allUser,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const res = await getAllUsers();
-
-      return res?.data?.data || [];
-    },
-  });
-
-  // Update role mutation
-  const mutation = useMutation({
-    mutationFn: async ({ userId, newRole }) => {
-      const res = await updateUserRole(userId, newRole);
-      if (res?.success) {
-        showNotification("User role updated successfully!", "success");
-      } else {
-        showNotification("Failed to update user role", "error");
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["users"]);
-    },
-  });
+  // 🔹 All users data from RTK Query
+  const { data: users, isLoading, isError, refetch } = useGetUsersQuery();
+  const [updateUserRole] = useUpdateUserRoleMutation();
 
   if (isLoading) return <p>Loading users...</p>;
-  if (error) return <p className="text-red-500">{error.message}</p>;
+  if (isError) return <p className="text-red-500">Failed to load users.</p>;
 
-  // Role update function
-  const handleRoleChange = (userId, newRole) => {
-    mutation.mutate({ userId, newRole });
+
+  // 🔹 Handle user role update
+  const handleRoleChange = async (userId, newRole) => {
+    try {
+      const response = await updateUserRole({ id: userId, role: newRole });
+
+      if ("error" in response) {
+        showNotification("Failed to update user role", "error");
+      } else {
+        showNotification("User role updated successfully!", "success");
+        refetch(); // ✅ Update successful হলে data reload হবে
+      }
+    } catch (error) {
+      showNotification("Something went wrong!", "error");
+    }
   };
 
   return (
@@ -66,7 +54,7 @@ const AllUser = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {allUser?.map((user) => (
+          {users?.data?.map((user) => (
             <Tr key={user._id} className="border-b border-gray-300">
               <Td className="p-2">
                 <Image
@@ -109,7 +97,6 @@ const AllUser = () => {
                   )}
                 </select>
               </Td>
-              <Td className="p-2">{/* Action খালি রাখা হলো */}</Td>
             </Tr>
           ))}
         </Tbody>

@@ -4,8 +4,8 @@ import { SessionProvider } from "next-auth/react";
 import { ImageKitProvider } from "imagekitio-next";
 import { NotificationProvider } from "../components/Notification";
 import { Provider } from "react-redux";
-import { store } from "../Redux/store/store";
 import ReactQueryProvider from "./ReactQueryProvider/ReactQueryProvider";
+import store from "../Redux/store/store";
 
 const urlEndpoint = process.env.NEXT_PUBLIC_IMG_KIT_URL;
 const publicKey = process.env.NEXT_PUBLIC_IMG_KIT_PUBLIC_KEY;

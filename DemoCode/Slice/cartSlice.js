@@ -1,4 +1,4 @@
-import { getCartData } from "@/src/lib/api_request/api_request";
+import { getCartData } from "@/DemoCode/ForNextJS-Prectice-Code/api_request/api_request";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

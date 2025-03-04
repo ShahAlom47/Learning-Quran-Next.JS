@@ -1,20 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "../Slice/counterSlice";
-import cartReducer from "../Slice/cartSlice";
-import productReducer, { fetchProducts } from "../Slice/productSlice";
-import { apiSlice } from "../Slice/apiSlice";
+import { userApi } from "../RTKapi/userApi";
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
-    counter: counterReducer,
-    cart: cartReducer,
-    products: productReducer,
-    [apiSlice.reducerPath]: apiSlice.reducer, // ✅ Redux store-এ API reducer যোগ করা
+  
+    [userApi.reducerPath]: userApi.reducer, // ✅ Redux store-এ API reducer যোগ করা
   },
   middleware: (getDefaultMiddleware) =>
-
-    getDefaultMiddleware().concat(apiSlice.middleware), // ✅ Middleware যোগ করা
+    getDefaultMiddleware()
+      // .concat(apiSlice.middleware) // ✅ Middleware সঠিকভাবে যোগ করা
+      .concat(userApi.middleware), // ✅ Middleware সঠিকভাবে যোগ করা
 });
 
 export default store;
-store.dispatch(fetchProducts())
+
+

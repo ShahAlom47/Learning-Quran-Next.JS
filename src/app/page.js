@@ -1,7 +1,5 @@
 
 import React from 'react';
-import ReduxExample from '../Redux/DemoCode/ReduxExample';
-import Cart from '../components/Cart';
 
 const Home = () => {
 
@@ -10,12 +8,12 @@ const Home = () => {
 
     return (
         <div className=' border   border-black text-xl'>
-            <Cart></Cart>
+            {/* <Cart></Cart> */}
 
             Home 
 
-            Redux use case 
-            <ReduxExample></ReduxExample>
+            
+            {/* <ReduxExample></ReduxExample> */}
             
         </div>
     );

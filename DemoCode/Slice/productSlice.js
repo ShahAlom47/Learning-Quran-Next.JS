@@ -1,5 +1,5 @@
 
-import { getProduct, updateProduct } from "@/src/lib/api_request/api_request";
+import { getProduct, updateProduct } from "@/DemoCode/ForNextJS-Prectice-Code/api_request/api_request";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Initial State
