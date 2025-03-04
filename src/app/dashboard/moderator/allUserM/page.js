@@ -1,6 +1,7 @@
 "use client";
 
 import { useNotification } from "@/src/components/Notification";
+import PaginationBtn from "@/src/components/PaginationBtn";
 import useUser from "@/src/hooks/useUser";
 import {
   useGetUsersQuery,
@@ -103,6 +104,13 @@ const AllUser = () => {
           ))}
         </Tbody>
       </Table>
+      <div>
+      <PaginationBtn
+        currentPage={4}
+        totalPages={10}
+        // onPageChange={}
+      />
+      </div>
     </div>
   );
 };
