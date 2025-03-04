@@ -18,6 +18,8 @@ const AllUser = () => {
   const { data: users, isLoading, isError, refetch } = useGetUsersQuery();
   const [updateUserRole] = useUpdateUserRoleMutation();
 
+  console.log(users);
+
   if (isLoading) return <p>Loading users...</p>;
   if (isError) return <p className="text-red-500">Failed to load users.</p>;
 

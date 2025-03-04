@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useNotification } from "@/src/components/Notification";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("@gmail.com"); // Default value set here
   const [password, setPassword] = useState("");
   const router = useRouter();
   const { showNotification } = useNotification();
@@ -20,8 +20,6 @@ export default function Login() {
       redirect: false,
     });
 
-
- 
     if (result?.error) {
       showNotification(result.error, "error");
     } else {
@@ -41,7 +39,7 @@ export default function Login() {
           <input
             type="email"
             id="email"
-            value={email}
+            value={email} // Controlled by state
             onChange={(e) => setEmail(e.target.value)}
             required
             className="w-full px-3 py-2 border rounded bg-slate-100"
@@ -54,7 +52,7 @@ export default function Login() {
           <input
             type="password"
             id="password"
-            value={password}
+            value={password || '123456'} // Controlled by state
             onChange={(e) => setPassword(e.target.value)}
             required
             className="w-full px-3 py-2 border rounded bg-slate-100"

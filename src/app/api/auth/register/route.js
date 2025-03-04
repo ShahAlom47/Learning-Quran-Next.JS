@@ -5,22 +5,24 @@ import { getUserCollection } from "@/src/lib/database/db_collections";
 export const POST = async (req) => {
   try {
     const usersCollection = await getUserCollection();
-
     const body = await req.json();
-    const { name, email, password, role, photoUrl } = body;
+    const { userId, email, password, role, photoUrl } = body;
 
-    if (!email || !password || !name) {
+    if (!email || !password || !userId) {
       return NextResponse.json(
         { message: "All fields are required" },
         { status: 400 }
       );
     }
 
-    // Check if the user already exists
-    const existingUser = await usersCollection.findOne({ email });
+    // Check if email or userId already exists
+    const existingUser = await usersCollection.findOne({
+      $or: [{ email }, { userId }],
+    });
+
     if (existingUser) {
       return NextResponse.json(
-        { message: "User already exists" },
+        { message: "Email or User ID already exists Please Check Your Email and Try Again" },
         { status: 409 }
       );
     }
@@ -31,8 +33,9 @@ export const POST = async (req) => {
 
     // Insert new user with hashed password
     const result = await usersCollection.insertOne({
-      name,
+      userId,
       email,
+      name: body.name,
       password: hashedPassword,
       role,
       photoUrl,
