@@ -1,29 +1,32 @@
 import { getUserCollection } from "@/src/lib/database/db_collections";
-import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
 export const GET = async (req) => {
   try {
-    const { userId } = req.params;
+    const userId = await req.query;
 
     const userCollection = await getUserCollection();
 
-    const user = await userCollection
-      .find({ userId: new ObjectId(userId) }) // Make sure userId is an ObjectId
-      .toArray(); // Convert the cursor to an array
+    console.log(userId,'idddddd');
+    // Fetch the user by custom userId
+    const user = await userCollection.findOne({ userID: userId });
 
-    // If no user found
-    if (users.length === 0) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: "User not found", data: null },
+        { status: 404 }
+      );
     }
 
-    // Return success response
     return NextResponse.json({
+      success: true,
       message: "User retrieved successfully",
-      data: user[0], // Return only the first user if there are multiple matches
+      data: user,
     });
   } catch (error) {
-    // Handle server error
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error.message, success: false },
+      { status: 500 }
+    );
   }
 };

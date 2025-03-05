@@ -13,8 +13,10 @@ import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import SearchBar from "@/src/components/SearchBar"; // 🔹 Import SearchBar
 import Loading from "@/src/app/loading";
+import { useRouter } from "next/navigation";
 
 const AllUser = ({ userType }) => {
+  const router = useRouter();
   const [updateUserRole] = useUpdateUserRoleMutation();
   const { user: currentUser } = useUser();
   const { showNotification } = useNotification();
@@ -87,17 +89,23 @@ const AllUser = ({ userType }) => {
             <Th className="text-start p-2">User ID</Th>
             <Th className="text-start p-2">Name</Th>
             <Th className="text-start p-2">Email</Th>
-          
+
             <Th className="text-start p-2">User Type</Th>
             {/* Conditionally render Action column based on userType */}
-            {(userType !== "student" && userType !== "teacher") && (
+            {userType !== "student" && userType !== "teacher" && (
               <Th className="text-start p-2">Action</Th>
             )}
           </Tr>
         </Thead>
         <Tbody>
           {(users?.data || []).map((user) => (
-            <Tr key={user._id} className=" mb-3 border-gray-300 hover:bg-slate-300 rounded-sm">
+            <Tr
+              onClick={() =>
+                router.push(`/dashboard/moderator/viewUser/${user?.userId}`)
+              }
+              key={user._id}
+              className=" mb-3 border-gray-300 hover:bg-slate-300 rounded-sm"
+            >
               <Td className="p-2">
                 <Image
                   src={user.photoUrl}
@@ -111,9 +119,9 @@ const AllUser = ({ userType }) => {
               <Td className="p-2">{user.name}</Td>
               <Td className="p-2">{user.email}</Td>
               <Td className="p-2 font-semibold">{user.role}</Td>
-              
+
               {/* Only show role change dropdown if userType is not student or teacher */}
-              {(userType !== "student" && userType !== "teacher") && (
+              {userType !== "student" && userType !== "teacher" && (
                 <Td className="p-2">
                   {/* Role Change Dropdown */}
                   <select

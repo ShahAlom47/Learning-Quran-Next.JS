@@ -26,13 +26,13 @@ export const userApi = createApi({
       providesTags: ["Users"],
     }),
     getUser: builder.query({
-      query: ({userId }) => ({
-        url: `/api/moderator/users/get_user`,
-        method: "GET",
+      query: ({ userId }) => ({
+        url: `/api/moderator/users/get_user`, 
+        method: 'GET',
+        params: { userId } ,
       }),
       providesTags: ["Users"],
     }),
-
     updateUserRole: builder.mutation({
       query: ({ id, role }) => ({
         url: `/api/moderator/users/updateUserRole`,
