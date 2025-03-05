@@ -13,6 +13,10 @@ body {
 
   border:   solid red 3px;
 }
+.uppercase-first-letter::first-letter {
+  text-transform: uppercase;
+
+}
 
 
 @layer base {

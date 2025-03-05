@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000", 
+    baseUrl: "http://localhost:3000",
     prepareHeaders: (headers, { getState }) => {
       const token = getState()?.auth?.token; // যদি টোকেন ব্যবহার করা হয়
       if (token) {
@@ -16,25 +16,33 @@ export const userApi = createApi({
   tagTypes: ["Users"],
 
   endpoints: (builder) => ({
-
-   getUsers: builder.query({
-  query: ({ page = 1, limit = 5, search = "" }) => ({
-    url: `/api/moderator/users/get_all_user?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`,
-    method: "GET",
-  }),
-  providesTags: ["Users"],
-}),
+    getUsers: builder.query({
+      query: ({ page = 1, limit = 5, search = "", userType = "all" }) => ({
+        url: `/api/moderator/users/get_all_user?page=${page}&limit=${limit}&search=${encodeURIComponent(
+          search
+        )}&userType=${userType}`,
+        method: "GET",
+      }),
+      providesTags: ["Users"],
+    }),
+    getUser: builder.query({
+      query: ({userId }) => ({
+        url: `/api/moderator/users/get_user`,
+        method: "GET",
+      }),
+      providesTags: ["Users"],
+    }),
 
     updateUserRole: builder.mutation({
       query: ({ id, role }) => ({
-        url: `/api/moderator/users/updateUserRole`, // ✅ API ইউআরএল ঠিক করা হয়েছে
+        url: `/api/moderator/users/updateUserRole`,
         method: "PATCH",
-        body: {userId:id,newRole:role},
+        body: { userId: id, newRole: role },
       }),
-      invalidatesTags: ["Users"], // ✅ আপডেটের পর ইউজার লিস্ট রিফ্রেশ হবে
+      invalidatesTags: ["Users"],
     }),
   }),
 });
 
 // ✅ সঠিকভাবে এক্সপোর্ট করা
-export const { useGetUsersQuery, useUpdateUserRoleMutation } = userApi;
+export const { useGetUsersQuery,useGetUserQuery, useUpdateUserRoleMutation } = userApi;
