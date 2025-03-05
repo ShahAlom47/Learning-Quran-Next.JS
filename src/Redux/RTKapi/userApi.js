@@ -16,10 +16,14 @@ export const userApi = createApi({
   tagTypes: ["Users"],
 
   endpoints: (builder) => ({
-    getUsers: builder.query({
-      query: () => "/api/moderator/users/get_all_user",
-      providesTags: ["Users"],
-    }),
+
+   getUsers: builder.query({
+  query: ({ page = 1, limit = 5, search = "" }) => ({
+    url: `/api/moderator/users/get_all_user?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`,
+    method: "GET",
+  }),
+  providesTags: ["Users"],
+}),
 
     updateUserRole: builder.mutation({
       query: ({ id, role }) => ({

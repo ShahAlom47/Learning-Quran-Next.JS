@@ -8,22 +8,33 @@ import {
   useUpdateUserRoleMutation,
 } from "@/src/Redux/RTKapi/userApi";
 import Image from "next/image";
+import { useState } from "react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
-import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css"; 
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import SearchBar from "@/src/components/SearchBar"; // 🔹 Import SearchBar
 
 const AllUser = () => {
   const { user: currentUser } = useUser();
   const { showNotification } = useNotification();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState(""); // 🔹 Search State
+  const limit = 5;
 
-  // 🔹 All users data from RTK Query
-  const { data: users, isLoading, isError, refetch } = useGetUsersQuery();
-  const [updateUserRole] = useUpdateUserRoleMutation();
+  // 🔹 Search Query সহ API Call
+  const { data: users, isLoading, isError, refetch } = useGetUsersQuery({
+    page: currentPage,
+    limit,
+    search: searchQuery, // 🔹 Pass search keyword
+  });
 
-  console.log(users);
+  const totalPage = users?.totalPages || 1;
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   if (isLoading) return <p>Loading users...</p>;
   if (isError) return <p className="text-red-500">Failed to load users.</p>;
-
 
   // 🔹 Handle user role update
   const handleRoleChange = async (userId, newRole) => {
@@ -34,7 +45,7 @@ const AllUser = () => {
         showNotification("Failed to update user role", "error");
       } else {
         showNotification("User role updated successfully!", "success");
-        refetch(); // ✅ Update successful হলে data reload হবে
+        refetch();
       }
     } catch (error) {
       showNotification("Something went wrong!", "error");
@@ -44,6 +55,9 @@ const AllUser = () => {
   return (
     <div className="p-5">
       <h1 className="text-lg font-bold mb-4">All Users</h1>
+
+      {/* 🔹 Search Bar Component */}
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
       {/* Table Component */}
       <Table className="w-full border border-gray-300">
@@ -57,7 +71,7 @@ const AllUser = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {users?.data?.map((user) => (
+          {(users?.data || []).map((user) => (
             <Tr key={user._id} className="border-b border-gray-300">
               <Td className="p-2">
                 <Image
@@ -68,6 +82,7 @@ const AllUser = () => {
                   className="rounded-full"
                 />
               </Td>
+              <Td className="p-2">{user.userId}</Td>
               <Td className="p-2">{user.name}</Td>
               <Td className="p-2">{user.email}</Td>
               <Td className="p-2 font-semibold">{user.role}</Td>
@@ -77,9 +92,8 @@ const AllUser = () => {
                   className="border p-1 rounded bg-gray-100 disabled:cursor-not-allowed"
                   defaultValue={user.role}
                   onChange={(e) => handleRoleChange(user._id, e.target.value)}
-                  disabled={user.role === "admin" || user.role === "moderator"} // অ্যাডমিন হলে অপশন চেঞ্জ হবে না
+                  disabled={user.role === "admin" || user.role === "moderator"}
                 >
-                  {/* Moderator হলে কেবল 3 টা রোল পাবে */}
                   {currentUser?.role === "moderator" && (
                     <>
                       <option value="user">User</option>
@@ -87,10 +101,8 @@ const AllUser = () => {
                       <option value="student">Student</option>
                     </>
                   )}
-
                   {currentUser?.role === "admin" && (
                     <>
-                      {/* Admin হলে সব রোল পাবে */}
                       <option value="admin">Admin</option>
                       <option value="moderator">Moderator</option>
                       <option value="user">User</option>
@@ -104,13 +116,17 @@ const AllUser = () => {
           ))}
         </Tbody>
       </Table>
-      <div>
-      <PaginationBtn
-        currentPage={4}
-        totalPages={10}
-        // onPageChange={}
-      />
-      </div>
+
+      {/* Pagination Buttons */}
+      {totalPage > 1 && (
+        <div className="mt-4">
+          <PaginationBtn
+            currentPage={currentPage}
+            totalPages={totalPage}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
     </div>
   );
 };
