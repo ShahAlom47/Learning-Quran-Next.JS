@@ -19,7 +19,10 @@ const ViewUser = async ({ params }) => {
     return (
         <div>
             {/* Pass the fetched user data to the UserDetails component */}
-            <UserDetails user={userData || {}} />
+            {
+                userData?<UserDetails user={userData || {}} />:
+                <h1 className=' text-center text-2xl text-black font-semibold'>User Not Found</h1>
+            }
         </div>
     );
 };
