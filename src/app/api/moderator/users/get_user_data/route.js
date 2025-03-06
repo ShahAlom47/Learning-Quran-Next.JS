@@ -3,13 +3,18 @@ import { NextResponse } from "next/server";
 
 export const GET = async (req) => {
   try {
-    const userId = await req.query;
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "User ID is required", data: null },
+        { status: 400 }
+      );
+    }
 
     const userCollection = await getUserCollection();
-
-    console.log(userId,'idddddd');
-    // Fetch the user by custom userId
-    const user = await userCollection.findOne({ userID: userId });
+    const user = await userCollection.findOne({ userId: userId });
 
     if (!user) {
       return NextResponse.json(

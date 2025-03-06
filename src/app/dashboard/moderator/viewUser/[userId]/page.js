@@ -7,18 +7,19 @@ import { userApi } from '@/src/Redux/RTKapi/userApi'; // Ensure correct API impo
 // Server component to fetch user data using RTK Query
 const ViewUser = async ({ params }) => {
     const { userId } = await params;
+    console.log(userId,'user id ');
 
     // Dispatch the getUser query manually using the correct syntax
     const result = await store.dispatch(userApi.endpoints.getUser.initiate({ userId }));
 
     // Get the data from the result
-    const userData = result?.data;
+    const userData = result?.data?.data;
     console.log(userData);  // For debugging, make sure you see the correct data
 
     return (
         <div>
             {/* Pass the fetched user data to the UserDetails component */}
-            <UserDetails user={userData} />
+            <UserDetails user={userData || {}} />
         </div>
     );
 };

@@ -27,9 +27,9 @@ export const userApi = createApi({
     }),
     getUser: builder.query({
       query: ({ userId }) => ({
-        url: `/api/moderator/users/get_user`, 
+        url: `/api/moderator/users/get_user_data`, 
         method: 'GET',
-        params: { userId } ,
+        params: {userId} ,
       }),
       providesTags: ["Users"],
     }),
