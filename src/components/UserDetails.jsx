@@ -12,6 +12,7 @@ const UserDetails = ({ user }) => {
   } = useGetUsersQuery({
     userType: user?.role === "student" ? "teacher" : "student",
   });
+  console.log(users, 'uuuuuu');
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");

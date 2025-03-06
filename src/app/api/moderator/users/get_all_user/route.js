@@ -10,6 +10,7 @@ export const GET = async (req) => {
     const userType = searchParams.get("userType") || "all"; // Get the userType from the query params
 
     const userCollection = await getUserCollection();
+    console.log(userType,'userTypeeee');
 
     // 🔎 Search filter (name, email, or user ID)
     const filter = {

@@ -74,7 +74,7 @@ const AllUser = ({ userType }) => {
   return (
     <div className="p-5">
       <h1 className="text-lg font-bold mb-4 capitalize">
-        {" "}
+       
         {userType ? userType : "All"} Users
       </h1>
 
