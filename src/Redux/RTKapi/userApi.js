@@ -27,9 +27,9 @@ export const userApi = createApi({
     }),
     getUser: builder.query({
       query: ({ userId }) => ({
-        url: `/api/moderator/users/get_user_data`, 
-        method: 'GET',
-        params: {userId} ,
+        url: `/api/moderator/users/get_user_data`,
+        method: "GET",
+        params: { userId },
       }),
       providesTags: ["Users"],
     }),
@@ -41,8 +41,17 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
+    addToStudentOrTeacherList: builder.mutation({
+      query: (payload) => ({
+        url: `/api/moderator/users/addToStudentOrTeacherList`,
+        method: "PATCH",
+        body: payload,
+      }),
+      invalidatesTags: ["Users"],
+    }),
   }),
 });
 
 // ✅ সঠিকভাবে এক্সপোর্ট করা
-export const { useGetUsersQuery,useGetUserQuery, useUpdateUserRoleMutation } = userApi;
+export const { useGetUsersQuery, useGetUserQuery, useUpdateUserRoleMutation ,useAddToStudentOrTeacherListMutation } =
+  userApi;

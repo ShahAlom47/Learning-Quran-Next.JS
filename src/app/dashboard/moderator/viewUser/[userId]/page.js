@@ -1,28 +1,34 @@
-// app/dashboard/moderator/viewUser/[userId]/page.js
+"use client"
 import React from 'react';
 import UserDetails from '@/src/components/UserDetails';
-import store from '@/src/Redux/store/store'; // Ensure the store is correctly imported
-import { userApi } from '@/src/Redux/RTKapi/userApi'; // Ensure correct API import
+import { useGetUserQuery } from '@/src/Redux/RTKapi/userApi';
+import { useParams } from 'next/navigation';
 
-// Server component to fetch user data using RTK Query
-const ViewUser = async ({ params }) => {
-    const { userId } = await params;
-    console.log(userId,'user id ');
+const ViewUser = () => {
+    const { userId } = useParams(); 
+  
 
-    // Dispatch the getUser query manually using the correct syntax
-    const result = await store.dispatch(userApi.endpoints.getUser.initiate({ userId }));
+    const { data: userData, isLoading ,refetch} = useGetUserQuery(
+        { userId }, // Pass the userId to the query
+        { skip: !userId } // Don't run the query if userId is not available
+    );
 
-    // Get the data from the result
-    const userData = result?.data?.data;
-    console.log(userData);  // For debugging, make sure you see the correct data
+
+ 
+    if (isLoading) {
+        return <h1 className="text-center text-2xl text-black font-semibold">Loading...</h1>;
+    }
+
+ 
 
     return (
         <div>
-            {/* Pass the fetched user data to the UserDetails component */}
-            {
-                userData?<UserDetails user={userData || {}} />:
-                <h1 className=' text-center text-2xl text-black font-semibold'>User Not Found</h1>
-            }
+            Pass the fetched user data to the UserDetails component
+            {userData ? (
+                <UserDetails user={userData?.data} refetch={refetch} />
+            ) : (
+                <h1 className="text-center text-2xl text-black font-semibold">User Not Found</h1>
+            )}
         </div>
     );
 };

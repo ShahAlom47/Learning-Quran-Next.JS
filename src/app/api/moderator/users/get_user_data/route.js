@@ -18,8 +18,7 @@ export const GET = async (req) => {
 
     if (!user) {
       return NextResponse.json(
-        { success: false, message: "User not found", data: null },
-        { status: 404 }
+        { success: false, message: "User not found", data: null }
       );
     }
 
