@@ -1,21 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isOpen: false,
-  content: null,
+  isOpen: false, // শুধু modal-এর অবস্থা track করবে
 };
 
-const modalSlice = createSlice({
+export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    openModal: (state, action) => {
+    openModal: (state) => {
       state.isOpen = true;
-      state.content = action.payload; // ডায়নামিক কন্টেন্ট সেট করবো
     },
     closeModal: (state) => {
       state.isOpen = false;
-      state.content = null;
     },
   },
 });

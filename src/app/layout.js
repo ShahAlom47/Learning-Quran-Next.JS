@@ -3,6 +3,7 @@ import "../style/globals.css";
 import Navbar from "../components/Navbar";
 import Providers from "../Providers/Provider";
 import Footer from "../components/Footer";
+import Modal from "../components/Modal";
 
 export const metadata = {
   title: "Learning Quran",
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <Navbar />
           {children}
+         
           <Footer></Footer>
         </Providers>
       </body>

@@ -7,6 +7,9 @@ import {
 } from "../Redux/RTKapi/userApi";
 import { MdDelete } from "react-icons/md";
 import { useNotification } from "./Notification";
+import { useDispatch } from "react-redux";
+import Modal from "./Modal";
+import { openModal } from "../Redux/slices/modalSlice";
 
 const UserDetails = ({ user, refetch }) => {
   const {
@@ -23,6 +26,7 @@ const UserDetails = ({ user, refetch }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [openAdd, setOpenAdd] = useState(false);
   const { showNotification } = useNotification();
+  const dispatch = useDispatch();
   const thisUserRole = user?.role;
 
   // 🔍 Filtered user list (suggestions)
@@ -56,8 +60,8 @@ const UserDetails = ({ user, refetch }) => {
     );
     if (res?.data?.success) {
       showNotification(`${selectedUser?.role} added successfully`, "success");
-      setSelectedUser(null)
-      setSearchTerm('')
+      setSelectedUser(null);
+      setSearchTerm("");
       refetch(); // Refetch after successful addition
     }
 
@@ -69,14 +73,46 @@ const UserDetails = ({ user, refetch }) => {
       <div className="flex justify-between gap-4 border-b-2 px-3 border-black pb-5">
         <div>
           <div className="rounded-full w-12 h-12 overflow-hidden flex items-center">
-            <Image src={user?.photoUrl} width={50} height={50} alt="user photo" />
+            <Image
+              src={user?.photoUrl}
+              width={50}
+              height={50}
+              alt="user photo"
+            />
           </div>
           <h1 className="text-xl font-bold">
             {user?.name} <span className="text-sm">({user?.role})</span>
           </h1>
         </div>
         <div className=" flex items-end  ">
-          <button className=" capitalize btn btn-primary btn-sm  ">Edit {user?.role}</button>
+          <button
+            className="capitalize btn btn-primary btn-sm "
+            onClick={() =>
+              dispatch(
+                openModal(
+                  <p className="text-lg">This is a dynamic modal content!</p>
+                )
+              )
+            }
+          >
+            Edit {user?.role}
+          </button>
+
+          {/* Modal Open Button */}
+          <button
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+            onClick={() => dispatch(openModal())}
+          >
+            Open Modal
+          </button>
+
+          {/* Modal with Content */}
+          <Modal>
+            <h2 className="text-xl font-semibold">Welcome to the Modal!</h2>
+            <p className="text-gray-600 mt-2">
+              This is a dynamic modal using Redux.
+            </p>
+          </Modal>
         </div>
       </div>
 
@@ -95,12 +131,16 @@ const UserDetails = ({ user, refetch }) => {
           <div>
             {/* Add new Teacher/Student form */}
             <div
-              className={`p-3 border border-gray-300 rounded my-3 ${openAdd ? "block" : "hidden"}`}
+              className={`p-3 border border-gray-300 rounded my-3 ${
+                openAdd ? "block" : "hidden"
+              }`}
             >
               <div className="flex gap-3">
                 <input
                   type="text"
-                  placeholder={`Search ${user?.role === "student" ? "Teacher" : "Student"} Name`}
+                  placeholder={`Search ${
+                    user?.role === "student" ? "Teacher" : "Student"
+                  } Name`}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full p-1 border border-gray-400 rounded bg-gray-400"
@@ -150,7 +190,7 @@ const UserDetails = ({ user, refetch }) => {
                       <h1>ID: {teacher.teacherId}</h1>
                       <h1>Name: {teacher.teacherName}</h1>
                       <button className="text-red-500 text-xl hover:scale-110">
-                      <MdDelete />
+                        <MdDelete />
                       </button>
                     </div>
                   ))
@@ -162,7 +202,7 @@ const UserDetails = ({ user, refetch }) => {
                       <h1>ID: {student.studentId}</h1>
                       <h1>Name: {student.studentName}</h1>
                       <button className="text-red-500 text-xl hover:scale-110">
-                      <MdDelete />
+                        <MdDelete />
                       </button>
                     </div>
                   ))}

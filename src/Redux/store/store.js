@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userApi } from "../RTKapi/userApi";
+import modalReducer from "../slices/modalSlice";
 
 const store = configureStore({
   reducer: {
