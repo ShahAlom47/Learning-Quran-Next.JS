@@ -6,7 +6,6 @@ import { NotificationProvider } from "../components/Notification";
 import { Provider } from "react-redux";
 import ReactQueryProvider from "./ReactQueryProvider/ReactQueryProvider";
 import store from "../Redux/store/store";
-import Modal from "../components/Modal";
 
 const urlEndpoint = process.env.NEXT_PUBLIC_IMG_KIT_URL;
 const publicKey = process.env.NEXT_PUBLIC_IMG_KIT_PUBLIC_KEY;
@@ -34,7 +33,6 @@ export default function Providers({ children }) {
               authenticator={authenticator}
             >
               {children}
-              <Modal></Modal>
             </ImageKitProvider>
           </NotificationProvider>
         </ReactQueryProvider>

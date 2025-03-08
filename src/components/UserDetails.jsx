@@ -7,9 +7,10 @@ import {
 } from "../Redux/RTKapi/userApi";
 import { MdDelete } from "react-icons/md";
 import { useNotification } from "./Notification";
-import { useDispatch } from "react-redux";
+
 import Modal from "./Modal";
-import { openModal } from "../Redux/slices/modalSlice";
+import useHandleModal from "../hooks/useHandleModal";
+import UserEditForm from "./UserEditForm";
 
 const UserDetails = ({ user, refetch }) => {
   const {
@@ -26,7 +27,8 @@ const UserDetails = ({ user, refetch }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [openAdd, setOpenAdd] = useState(false);
   const { showNotification } = useNotification();
-  const dispatch = useDispatch();
+  const {open}= useHandleModal()
+
   const thisUserRole = user?.role;
 
   // 🔍 Filtered user list (suggestions)
@@ -85,34 +87,20 @@ const UserDetails = ({ user, refetch }) => {
           </h1>
         </div>
         <div className=" flex items-end  ">
-          <button
-            className="capitalize btn btn-primary btn-sm "
-            onClick={() =>
-              dispatch(
-                openModal(
-                  <p className="text-lg">This is a dynamic modal content!</p>
-                )
-              )
-            }
-          >
-            Edit {user?.role}
-          </button>
+        
 
           {/* Modal Open Button */}
           <button
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-            onClick={() => dispatch(openModal())}
+            className="capitalize btn btn-primary btn-sm "
+            onClick={() => open()}
           >
-            Open Modal
+           Edit {user?.role}
           </button>
 
           {/* Modal with Content */}
-          <Modal>
-            <h2 className="text-xl font-semibold">Welcome to the Modal!</h2>
-            <p className="text-gray-600 mt-2">
-              This is a dynamic modal using Redux.
-            </p>
-          </Modal>
+         <Modal>
+          <UserEditForm userData={user}></UserEditForm>
+         </Modal>
         </div>
       </div>
 
