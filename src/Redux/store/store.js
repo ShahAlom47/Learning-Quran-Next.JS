@@ -3,7 +3,7 @@ import { userApi } from "../RTKapi/userApi";
 
 const store = configureStore({
   reducer: {
-  
+    modal: modalReducer,
     [userApi.reducerPath]: userApi.reducer, // ✅ Redux store-এ API reducer যোগ করা
   },
   middleware: (getDefaultMiddleware) =>
@@ -13,5 +13,3 @@ const store = configureStore({
 });
 
 export default store;
-
-

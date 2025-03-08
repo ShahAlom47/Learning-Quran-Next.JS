@@ -5,7 +5,7 @@ import {
   useAddToStudentOrTeacherListMutation,
   useGetUsersQuery,
 } from "../Redux/RTKapi/userApi";
-import { FaBinoculars } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { useNotification } from "./Notification";
 
 const UserDetails = ({ user, refetch }) => {
@@ -75,11 +75,14 @@ const UserDetails = ({ user, refetch }) => {
             {user?.name} <span className="text-sm">({user?.role})</span>
           </h1>
         </div>
+        <div className=" flex items-end  ">
+          <button className=" capitalize btn btn-primary btn-sm  ">Edit {user?.role}</button>
+        </div>
       </div>
 
       {user?.role === "student" || user?.role === "teacher" ? (
         <div className="text-black border border-black p-2 my-5">
-          <div className="flex justify-between gap-3 border-b border-black py-1 px-4">
+          <div className="flex justify-between gap-3 border-b border-black py-1 px-4 mb-6">
             <h1 className="capitalize text-xl">{user?.role}s</h1>
             <button
               onClick={() => setOpenAdd(!openAdd)}
@@ -142,24 +145,24 @@ const UserDetails = ({ user, refetch }) => {
                 ? user?.teachers?.map((teacher) => (
                     <div
                       key={teacher.teacherId}
-                      className="py-3 bb w-full flex gap-4 mb-4 justify-between"
+                      className="py-3 px-2  w-full flex gap-4 mb-4 justify-between  shadow-slate-500 shadow-lg"
                     >
                       <h1>ID: {teacher.teacherId}</h1>
                       <h1>Name: {teacher.teacherName}</h1>
-                      <button>
-                        <FaBinoculars />
+                      <button className="text-red-500 text-xl hover:scale-110">
+                      <MdDelete />
                       </button>
                     </div>
                   ))
                 : user?.students?.map((student) => (
                     <div
                       key={student.studentId}
-                      className="py-3 bb w-full flex gap-4 mb-4"
+                      className="py-3 px-2  w-full flex gap-4 mb-4 justify-between  shadow-slate-500 shadow-lg"
                     >
                       <h1>ID: {student.studentId}</h1>
                       <h1>Name: {student.studentName}</h1>
-                      <button>
-                        <FaBinoculars />
+                      <button className="text-red-500 text-xl hover:scale-110">
+                      <MdDelete />
                       </button>
                     </div>
                   ))}

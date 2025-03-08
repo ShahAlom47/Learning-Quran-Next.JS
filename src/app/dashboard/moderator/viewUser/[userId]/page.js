@@ -23,7 +23,6 @@ const ViewUser = () => {
 
     return (
         <div>
-            Pass the fetched user data to the UserDetails component
             {userData ? (
                 <UserDetails user={userData?.data} refetch={refetch} />
             ) : (
